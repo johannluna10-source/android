@@ -59,6 +59,7 @@ fun PantallaAgregarEstudiante(
             modifier = Modifier.padding(paddingValues)
         ) {
 
+
         }
     }
 }
