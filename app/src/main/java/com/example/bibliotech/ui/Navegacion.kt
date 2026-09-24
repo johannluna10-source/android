@@ -18,6 +18,7 @@ import com.example.bibliotech.model.Libro
 import com.example.bibliotech.viewmodel.LibroViewModel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.*
+import com.example.bibliotech.viewmodel.EstudianteViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 
@@ -45,7 +46,7 @@ fun Navegacion(
                     navController.navigate("prestados")
                 },
                 onEstudiante = {
-                    navController.navigate("Estudiantes")
+                    navController.navigate("estudiantes")
                 }
             )
         }
@@ -179,12 +180,53 @@ fun Navegacion(
             )
         }
 
+        composable("estudiantes") {
+
+            PantallaEstudiantes   (
+                onRegresar = {
+                    navController.popBackStack()
+                },
+                onVerDetalles = {},
+                onAgregarEstudiante = {
+                    navController.navigate("agregarEstudiante")
+                },
+                mensaje = mensaje,
+                onMensajeMostrado = {mensaje = null})
+        }
+
+
 
 
         composable("prestados") {
 
             PantallaLibrosPrestados(
                 onRegresar = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+        composable("agregarEstudiantes") {
+
+            val app = LocalContext.current.applicationContext as BibliotecaApplication
+            val viewModel: EstudianteViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    override fun <T : ViewModel> create(
+                        modelClass: Class<T>
+
+
+                    ): T {
+                        return EstudianteViewModel(app as Application) as T
+                    }
+                }
+            )
+            PantallaAgregarEstudiante(
+                viewModel=viewModel(),
+                onGuardar ={
+                    mensaje ="Estudiante guardado con exito"
+                    navController.popBackStack()
+                },
+                OnCancelar={
                     navController.popBackStack()
                 }
             )
