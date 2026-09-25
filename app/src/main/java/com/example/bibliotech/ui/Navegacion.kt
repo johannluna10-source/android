@@ -188,7 +188,7 @@ fun Navegacion(
                 },
                 onVerDetalles = {},
                 onAgregarEstudiante = {
-                    navController.navigate("agregarEstudiante")
+                    navController.navigate("agregarEstudiantes")
                 },
                 mensaje = mensaje,
                 onMensajeMostrado = {mensaje = null})
@@ -221,14 +221,14 @@ fun Navegacion(
                 }
             )
             PantallaAgregarEstudiante(
-                viewModel=viewModel(),
                 onGuardar ={
                     mensaje ="Estudiante guardado con exito"
                     navController.popBackStack()
                 },
                 OnCancelar={
                     navController.popBackStack()
-                }
+                },
+                viewModel=viewModel
             )
         }
     }
