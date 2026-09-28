@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.TextButton
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,7 +43,8 @@ fun PantallaDetalleEstudiante(
     onRegresar: () -> Unit,
     navController: NavHostController,
     onEditar: (Int) -> Unit,
-    onEliminar: () -> Unit
+    onEliminar: (Estudiante) -> Unit
+
     ){
     var mostrarDialogo by remember { mutableStateOf(false) }
     val mensaje = navController
@@ -115,6 +118,26 @@ fun PantallaDetalleEstudiante(
             { Text("Eliminar") }
             OutlinedButton(onClick = {onRegresar()}, modifier = Modifier.fillMaxWidth()) {
                 Text("Regresar")
+            }
+
+            if(mostrarDialogo){
+                AlertDialog(
+                    onDismissRequest = {mostrarDialogo=false},
+                    title = {Text("Elimiar Estudiante")},
+                    text = {Text("¿Estas seguro de eliminar estudainte?")},
+                    confirmButton = {
+                        TextButton(
+                            onClick = {mostrarDialogo=false
+                            onEliminar(estudiante)}
+                        ) { Text("Eliminar") }
+            },
+                    dismissButton={
+                        TextButton(
+                            onClick = {mostrarDialogo=false}
+                        ) { Text("Cancelar") }
+
+                    }
+                )
             }
 
         }

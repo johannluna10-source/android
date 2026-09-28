@@ -186,7 +186,9 @@ fun Navegacion(
                 onRegresar = {
                     navController.popBackStack()
                 },
-                onVerDetalles = {},
+                onVerDetalles = {idEstudiante ->
+                    navController.navigate("detalleEstudiante/$idEstudiante")
+                },
                 onAgregarEstudiante = {
                     navController.navigate("agregarEstudiantes")
                 },
@@ -230,6 +232,79 @@ fun Navegacion(
                 },
                 viewModel=viewModel
             )
+        }
+        composable("detalleEstudiante/{idEstudiante}") {
+            val idEstudiante = it.arguments
+                ?.getString("idEstudiante")
+                ?.toIntOrNull()
+            val app = LocalContext.current.applicationContext as BibliotecaApplication
+            val viewModel: EstudianteViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                        return EstudianteViewModel(app as Application) as T
+                    }
+                }
+            )
+
+            val estudiante by viewModel.estudianteSeleccionado.collectAsState()
+            LaunchedEffect(idEstudiante) {
+                if (idEstudiante != null) {
+                    viewModel.cargarEstudiantePorId(idEstudiante)
+                }
+            }
+
+            if (idEstudiante != null && estudiante != null) {
+                PantallaDetalleEstudiante(
+                    estudiante = estudiante!!,
+                    onRegresar = { navController.popBackStack() },
+                    navController = navController,
+                    onEditar = { id -> navController.navigate("editarEstudiante/$id") },
+                    onEliminar = { estudianteEliminar ->
+                        viewModel.eliminarEstudiante(estudianteEliminar)
+                        mensaje = "Estudiante eliminado con exito"
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+        composable ( "editarEstudiante/{idEstudiante}" ) {
+            val idEstudiante = it.arguments
+                ?.getString("idEstudiante")
+                ?.toIntOrNull()
+            val app = LocalContext.current.applicationContext as BibliotecaApplication
+            val viewModel: EstudianteViewModel = viewModel(
+                factory = object : ViewModelProvider.Factory {
+                    override fun <T : ViewModel> create(
+                        modelClass: Class<T>
+
+
+                    ): T {
+                        return EstudianteViewModel(app as Application) as T
+                    }
+                }
+            )
+
+            val estudiante by viewModel.estudianteSeleccionado.collectAsState()
+
+            LaunchedEffect(idEstudiante) {
+if( idEstudiante!=null){
+    viewModel.cargarEstudiantePorId(idEstudiante)
+}
+            }
+                if (estudiante!=null){
+                    PantallaEditarEstudiante(
+                        estudiante = estudiante!!,
+                        onGuardar = {estudianteEditado ->
+                            viewModel.actualizarEstudiante(estudianteEditado)
+                            navController.previousBackStackEntry
+                                ?.savedStateHandle
+                                ?.set("mensaje","cambios guardados correctamente")
+                            navController.popBackStack()
+                        },
+                        onCancelar={navController.popBackStack()}
+                    )
+                }
+
         }
     }
 }
