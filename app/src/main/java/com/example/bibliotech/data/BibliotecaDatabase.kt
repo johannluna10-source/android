@@ -11,6 +11,7 @@ import com.example.bibliotech.model.Estudiante
 
 // Importamos la entidad Libro
 import com.example.bibliotech.model.Libro
+import com.example.bibliotech.model.Prestamo
 
 
 // ----------------------------------------------------
@@ -24,14 +25,15 @@ import com.example.bibliotech.model.Libro
 
 
     // Lista de tablas que tendrá la base de datos
-    entities = [Libro::class, Estudiante::class],
+    entities = [Libro::class, Estudiante::class, Prestamo::class],
 
 
 
 
     // Primera versión de la base de datos
     //version = 1,
-    version = 2,
+    //version = 2,
+    version = 3,
 
 
     // No exportaremos el esquema durante el curso
@@ -49,5 +51,6 @@ abstract class BibliotecaDatabase : RoomDatabase() {
     // =========================
     abstract fun estudianteDao(): EstudianteDao
 
+    abstract fun prestamoDao(): PrestamoDao
 
 }
