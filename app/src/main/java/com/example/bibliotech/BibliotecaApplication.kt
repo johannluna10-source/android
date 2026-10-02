@@ -1,6 +1,5 @@
 package com.example.bibliotech
 
-import PrestamoRepository
 import android.app.Application
 import com.example.bibliotech.data.BibliotecaDatabase
 import com.example.bibliotech.data.DatabaseProvider
@@ -11,6 +10,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
+import kotlin.getValue
+import com.example.bibliotech.data.PrestamoRepository
 
 class BibliotecaApplication : Application() {
 

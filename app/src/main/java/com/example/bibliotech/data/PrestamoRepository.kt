@@ -1,21 +1,22 @@
-import com.example.bibliotech.data.PrestamoDao
+package com.example.bibliotech.data
+
 import com.example.bibliotech.model.Prestamo
 
 class PrestamoRepository(private val prestamoDao: PrestamoDao) {
 
-    suspend fun insertar(prestamo: Prestamo) {
-        prestamoDao.insertar(prestamo)
+    fun insertarPrestamo(prestamo: Prestamo): Long {
+        return prestamoDao.insertar(prestamo)
     }
 
-    suspend fun obtenerPrestamosActivos(): List<Prestamo> {
+    fun obtenerPrestamosActivos(): List<Prestamo> {
         return prestamoDao.obtenerPrestamosActivos()
     }
 
-    suspend fun obtenerPrestamoPorId(id: Int): Prestamo? {
+    fun obtenerPrestamoPorId(id: Int): Prestamo? {
         return prestamoDao.obtenerPrestamoPorId(id)
     }
 
-    suspend fun actualizarPrestamo(prestamo: Prestamo) {
+    fun actualizarPrestamo(prestamo: Prestamo) {
         prestamoDao.actualizarPrestamo(prestamo)
     }
 }
