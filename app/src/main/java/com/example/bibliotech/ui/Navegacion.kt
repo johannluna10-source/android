@@ -182,6 +182,11 @@ fun Navegacion(
             PantallaPrestamo(
                 onRegresar = {
                     navController.popBackStack()
+                },
+                onPrestamoGuardado={
+                    mensaje="Prestamo Realizado con exito"
+                    navController.popBackStack()
+
                 }
             )
         }
@@ -191,7 +196,10 @@ fun Navegacion(
             PantallaLibrosPrestados(
                 onRegresar = {
                     navController.popBackStack()
-                })
+                },
+
+
+            )
 
 
         }

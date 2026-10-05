@@ -74,8 +74,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 // libros que ya existen.
 // ============================================================
 val MIGRATION_1_2 = object : Migration(1, 2) {
-
-
     override fun migrate(
         db: SupportSQLiteDatabase
     ) {
@@ -98,7 +96,27 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
 }
 
 
-
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("DROP TABLE IF EXISTS `Prestamos`")
+        db.execSQL(
+            """
+            CREATE TABLE IF NOT EXISTS `Prestamos` (
+                `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                `idLibro` INTEGER NOT NULL,
+                `idEstudiante` INTEGER NOT NULL,
+                `fechaPrestamo` TEXT NOT NULL,
+                `fechaDevolucion` TEXT,
+                `devuelto` INTEGER NOT NULL,
+                FOREIGN KEY(`idLibro`) REFERENCES `libros`(`id`)
+                    ON UPDATE NO ACTION ON DELETE NO ACTION,
+                FOREIGN KEY(`idEstudiante`) REFERENCES `Estudiantes`(`id`)
+                    ON UPDATE NO ACTION ON DELETE NO ACTION
+            )
+            """.trimIndent()
+        )
+    }
+}
 
 // ============================================================
 // PROVEEDOR DE LA BASE DE DATOS
@@ -143,7 +161,7 @@ object DatabaseProvider {
                 // ====================================================
                 // Le indicamos a Room cómo pasar de la versión 1
                 // a la versión 2.
-                .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
 
 
                 // Construimos la base de datos
