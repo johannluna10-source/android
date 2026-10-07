@@ -33,23 +33,36 @@ fun Navegacion(
         startDestination = "inicio"
     ) {
 
+        // PANTALLA PRINCIPAL
+// =====================================================
         composable("inicio") {
+
 
             PantallaPrincipal(
                 onCatalogo = {
                     navController.navigate("catalogo")
                 },
+
                 onPrestamo = {
                     navController.navigate("prestamo")
                 },
+
                 onPrestados = {
                     navController.navigate("prestados")
                 },
-                onEstudiante = {
+                onEstudiantes = {
                     navController.navigate("estudiantes")
+                },
+                // Mensaje enviado desde otras pantallas. // ------------- AQUI
+                mensaje = mensaje,
+
+                // Limpiamos el mensaje después de mostrarlo.
+                onMensajeMostrado = {
+                    mensaje = null
                 }
             )
         }
+
 
         composable("catalogo") {
 
