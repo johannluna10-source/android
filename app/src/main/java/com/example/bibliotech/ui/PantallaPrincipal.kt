@@ -20,6 +20,7 @@ import androidx.compose.material3.SnackbarHost
 
 @Composable
 fun PantallaPrincipal(
+    onCerrarSesion: () -> Unit,
     onCatalogo: () -> Unit,
     onPrestamo: () -> Unit,
     onPrestados: () -> Unit,
@@ -166,6 +167,19 @@ fun PantallaPrincipal(
             BotonMenu(
                 texto = "Libros prestados",
                 onClick = onPrestados
+            )
+
+
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
+
+            // ============================================
+            // CERRAR SESIÓN
+            // ============================================
+            BotonMenu(
+                texto = "Cerrar sesión",
+                onClick = onCerrarSesion
             )
         }
     }}
